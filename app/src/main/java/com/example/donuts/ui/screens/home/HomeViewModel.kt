@@ -11,7 +11,7 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val getAllDonutsUseCase: GetAllDonutsUseCase,
     private val getOffersUseCase: GetOffersUseCase
-) : BaseViewModel<HomeUiState>(HomeUiState()) {
+) : BaseViewModel<HomeUiState>(HomeUiState()), HomeEventHandler {
 
     init {
         getHomeData()
@@ -28,7 +28,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun onClickFav(id: Int) {
+    override fun onClickFav(id: Int) {
         val isFavorite = state.value.offers.find { it.id == id }!!.isFavorite
         _state.update {
             it.copy(

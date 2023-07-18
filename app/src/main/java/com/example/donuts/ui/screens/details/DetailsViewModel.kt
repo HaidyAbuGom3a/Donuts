@@ -12,7 +12,7 @@ class DetailsViewModel @Inject constructor(
     private val getDonutDetailsUseCase: GetDonutDetailsUseCase,
     savedStateHandle: SavedStateHandle
 ) :
-    BaseViewModel<DetailsUiState>(DetailsUiState()) {
+    BaseViewModel<DetailsUiState>(DetailsUiState()),DetailsEventHandler {
     private val args = DetailsArgs(savedStateHandle)
 
     init {
@@ -31,19 +31,19 @@ class DetailsViewModel @Inject constructor(
         }
     }
 
-    fun onClickPlusButton() {
+    override fun onClickPlusButton() {
         val newQuantity = _state.value.quantity + 1
         _state.update { it.copy(quantity = newQuantity) }
     }
 
-    fun onClickMinusButton() {
+    override fun onClickMinusButton() {
         if (_state.value.quantity > 1) {
             val newQuantity = _state.value.quantity - 1
             _state.update { it.copy(quantity = newQuantity) }
         }
     }
 
-    fun onClickFav() {
+    override fun onClickFav() {
         _state.update { it.copy(isFavorite = !it.isFavorite) }
     }
 
