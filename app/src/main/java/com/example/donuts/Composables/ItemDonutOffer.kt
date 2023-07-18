@@ -52,10 +52,14 @@ fun ItemDonutOffer(
             Column {
                 val icon = if (state.isFavorite) R.drawable.icon_heart_filled
                 else R.drawable.icon_heart_add_to_favourite
-                CardFavorite(
+                CardIcon(
                     icon = painterResource(id = icon),
                     shape = CircleShape,
                     state.id,
+                    modifier = Modifier.padding(
+                        start = MaterialTheme.spacing.spacing_16,
+                        top = MaterialTheme.spacing.spacing_16
+                    ),
                     onClickFav
                 )
                 VerticalSpacer118()
