@@ -7,7 +7,9 @@ data class DetailsUiState(
     val donutName: String = "",
     val description: String = "",
     @DrawableRes val image: Int = 0,
-    val price: Int = 0
+    val price: Int = 0,
+    val quantity:Int = 1,
+    val isFavorite:Boolean = false
 )
 
 fun DonutEntity.toDetailsUiState() = DetailsUiState(
