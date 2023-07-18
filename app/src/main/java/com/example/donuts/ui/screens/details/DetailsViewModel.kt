@@ -1,6 +1,5 @@
 package com.example.donuts.ui.screens.details
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import com.example.donuts.domain.usecases.GetDonutDetailsUseCase
 import com.example.donuts.ui.base.BaseViewModel
@@ -22,7 +21,6 @@ class DetailsViewModel @Inject constructor(
 
     private fun getDonutDetails() {
         val donut: DetailsUiState = getDonutDetailsUseCase(args.id.toInt()).toDetailsUiState()
-        //Log.e("haidy",donut.donutName)
         _state.update {
             it.copy(
                 donutName = donut.donutName,
@@ -31,6 +29,22 @@ class DetailsViewModel @Inject constructor(
                 description = donut.description
             )
         }
+    }
+
+    fun onClickPlusButton() {
+        val newQuantity = _state.value.quantity + 1
+        _state.update { it.copy(quantity = newQuantity) }
+    }
+
+    fun onClickMinusButton() {
+        if (_state.value.quantity > 1) {
+            val newQuantity = _state.value.quantity - 1
+            _state.update { it.copy(quantity = newQuantity) }
+        }
+    }
+
+    fun onClickFav() {
+        _state.update { it.copy(isFavorite = !it.isFavorite) }
     }
 
 }
