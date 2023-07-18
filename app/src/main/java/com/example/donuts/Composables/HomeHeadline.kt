@@ -24,7 +24,7 @@ import com.example.donuts.ui.theme.Primary300
 import com.example.donuts.ui.theme.Typography
 
 @Composable
-fun HomeHeadline(headline:String,description:String,hasSearch:Boolean){
+fun HomeHeadline(headline: String, description: String, hasSearch: Boolean) {
     Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
         Column {
             Text(
@@ -43,22 +43,17 @@ fun HomeHeadline(headline:String,description:String,hasSearch:Boolean){
         }
 
         Spacer(modifier = Modifier.weight(1f))
-        if(hasSearch){
-            Card(
+        if (hasSearch) {
+            CardIcon(
+                icon = painterResource(id = R.drawable.icon_search),
+                shape = RoundedCornerShape(MaterialTheme.radius.radius_15),
+                parameter = null,
+                containerColor = Primary100,
+                contentColor = Primary300,
                 modifier = Modifier
-                    .padding(end = MaterialTheme.spacing.spacing_32),
-                colors = CardDefaults.cardColors(
-                    containerColor = Primary100,
-                    contentColor = Primary300
-                ),
-                shape = RoundedCornerShape(MaterialTheme.radius.radius_15)
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.icon_search),
-                    contentDescription = "",
-                    modifier = Modifier.padding(MaterialTheme.spacing.spacing_8)
-                )
-            }
+                    .padding(end = MaterialTheme.spacing.spacing_32)
+            )
+
         }
     }
 }
