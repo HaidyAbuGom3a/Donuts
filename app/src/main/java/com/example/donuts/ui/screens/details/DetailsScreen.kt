@@ -193,7 +193,7 @@ fun DetailsContent(
                 )
             }
             VerticalSpacer24()
-            Row {
+            Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
                     stringResource(R.string.price) + state.price.toString(),
                     style = Typography.displayLarge,
@@ -212,7 +212,10 @@ fun DetailsContent(
                     contentPadding = PaddingValues(
                         vertical = MaterialTheme.spacing.spacing_16,
                         horizontal = MaterialTheme.spacing.spacing_24
-                    )
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(end = MaterialTheme.spacing.spacing_32)
                 )
             }
             Spacer(modifier = Modifier.weight(1f))
