@@ -1,7 +1,6 @@
 package com.example.donuts.ui.di
 
 import com.example.donuts.data.local.DataSource
-import com.example.donuts.data.local.DataSourceImp
 import com.example.donuts.data.repository.RepositoryImp
 import com.example.donuts.domain.repository.Repository
 import dagger.Module
@@ -16,7 +15,7 @@ internal object RepositoryModule {
     @Singleton
     @Provides
     fun bindRepository(
-        dataSource: DataSourceImp,
+        dataSource: DataSource,
     ): Repository {
         return RepositoryImp(dataSource)
     }
