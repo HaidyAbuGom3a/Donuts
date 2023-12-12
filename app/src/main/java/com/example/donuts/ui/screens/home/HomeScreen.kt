@@ -27,9 +27,11 @@ import com.example.donuts.ui.screens.home.composable.HomeHeadline
 import com.example.donuts.ui.screens.home.composable.ItemDonut
 import com.example.donuts.ui.screens.home.composable.ItemDonutOffer
 import com.example.donuts.ui.composables.VerticalSpacer40
+import com.example.donuts.ui.screens.details.navigateToDetails
 import com.example.donuts.ui.theme.CardBlue
 import com.example.donuts.ui.theme.CardPink
 import com.example.donuts.ui.theme.Typography
+import com.example.donuts.ui.util.EffectHandler
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
@@ -41,6 +43,11 @@ fun HomeScreen(
     systemUiController.setSystemBarsColor(Color.Transparent)
     systemUiController.setStatusBarColor(Color.Transparent, darkIcons = true)
     val state by viewModel.state.collectAsState()
+    EffectHandler(effects = viewModel.effect){ effect ->
+        when(effect){
+            is HomeUiEffect.NavigateToDonutDetails -> navController.navigateToDetails(effect.id)
+        }
+    }
     HomeContent(state = state, viewModel, navController)
 
 }
@@ -74,12 +81,12 @@ fun HomeContent(
         ) {
             VerticalSpacer40()
             HomeHeadline(
-                stringResource(R.string.let_s_gonuts),
-                stringResource(R.string.order_your_favourite_donuts_from_here),
+                "Let's Gonuts!",
+                "Order your favourite donuts from here",
                 true
             )
             Text(
-                text = stringResource(R.string.today_offers),
+                text = "Today Offers",
                 style = Typography.headlineSmall,
                 modifier = Modifier.padding(start = 32.dp, bottom = 24.dp, top = 40.dp)
             )
@@ -95,7 +102,7 @@ fun HomeContent(
                 }
             }
             Text(
-                text = stringResource(R.string.donuts),
+                text = "Donuts",
                 style = Typography.headlineSmall,
                 modifier = Modifier.padding(start = 32.dp, top = 24.dp)
             )
