@@ -1,4 +1,4 @@
-package com.example.donuts.ui.composables
+package com.example.donuts.ui.screens.home.composable
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
@@ -19,6 +19,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import coil.compose.rememberAsyncImagePainter
 import com.example.donuts.R
+import com.example.donuts.ui.composables.VerticalSpacer24
+import com.example.donuts.ui.composables.VerticalSpacer32
+import com.example.donuts.ui.composables.VerticalSpacer8
 import com.example.donuts.ui.dimens
 import com.example.donuts.ui.modifier.noRippleEffect
 import com.example.donuts.ui.radius

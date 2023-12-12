@@ -11,24 +11,30 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val getAllDonutsUseCase: GetAllDonutsUseCase,
     private val getOffersUseCase: GetOffersUseCase
-) : BaseViewModel<HomeUiState>(HomeUiState()), HomeEventHandler {
+) : BaseViewModel<HomeUiState, HomeUiEffect>(HomeUiState()), HomeInteractionListener {
 
     init {
-        getHomeData()
+        getAllDonuts()
+        getAllOffers()
     }
 
-    private fun getHomeData() {
-        val donuts: List<DonutUiState> = getAllDonutsUseCase().map { it.toDonutUiState() }
-        val offers: List<DonutUiState> = getOffersUseCase().map { it.toDonutUiState() }
-        _state.update {
-            it.copy(
-                donuts = donuts,
-                offers = offers
-            )
-        }
+    private fun getAllDonuts() {
+        tryToExecute(
+            { getAllDonutsUseCase().map { it.toDonutUiState() } },
+            ::onGetDonutsSuccess,
+            ::onError
+        )
     }
 
-    override fun onClickFav(id: Int) {
+    private fun getAllOffers() {
+        tryToExecute(
+            { getOffersUseCase().map { it.toDonutUiState() } },
+            ::onGetOffersSuccess,
+            ::onError
+        )
+    }
+
+    override fun onClickFav(id: String) {
         val isFavorite = state.value.offers.find { it.id == id }!!.isFavorite
         _state.update {
             it.copy(
@@ -41,6 +47,22 @@ class HomeViewModel @Inject constructor(
                 }
             )
         }
+    }
+
+    override fun onClickItem(id: String) {
+        sendNewEffect(HomeUiEffect.NavigateToDonutDetails(id))
+    }
+
+    private fun onGetDonutsSuccess(donuts: List<DonutUiState>) {
+        _state.update { it.copy(donuts = donuts) }
+    }
+
+    private fun onGetOffersSuccess(offers: List<DonutUiState>) {
+        _state.update { it.copy(offers = offers) }
+    }
+
+    private fun onError(e: Exception) {
+        println("haidy error $e")
     }
 
 }

@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -18,20 +18,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.donuts.Composables.BottomNavigation
-import com.example.donuts.Composables.HomeHeadline
-import com.example.donuts.Composables.ItemDonut
-import com.example.donuts.Composables.ItemDonutOffer
-import com.example.donuts.Composables.VerticalSpacer16
-import com.example.donuts.Composables.VerticalSpacer24
-import com.example.donuts.Composables.VerticalSpacer32
-import com.example.donuts.Composables.VerticalSpacer40
-import com.example.donuts.Composables.VerticalSpacer8
 import com.example.donuts.R
-import com.example.donuts.ui.screens.details.navigateToDetails
-import com.example.donuts.ui.spacing
+import com.example.donuts.ui.composables.BottomNavigation
+import com.example.donuts.ui.screens.home.composable.HomeHeadline
+import com.example.donuts.ui.screens.home.composable.ItemDonut
+import com.example.donuts.ui.screens.home.composable.ItemDonutOffer
+import com.example.donuts.ui.composables.VerticalSpacer40
 import com.example.donuts.ui.theme.CardBlue
 import com.example.donuts.ui.theme.CardPink
 import com.example.donuts.ui.theme.Typography
@@ -46,75 +41,75 @@ fun HomeScreen(
     systemUiController.setSystemBarsColor(Color.Transparent)
     systemUiController.setStatusBarColor(Color.Transparent, darkIcons = true)
     val state by viewModel.state.collectAsState()
-    HomeContent(
-        state = state,
-        { id -> navController.navigateToDetails(id) },
-        onClickFav = viewModel::onClickFav
-    )
+    HomeContent(state = state, viewModel, navController)
 
 }
 
 @Composable
 fun HomeContent(
     state: HomeUiState,
-    onClickItem: (Int) -> Unit,
-    onClickFav: (Int) -> Unit
+    listener: HomeInteractionListener,
+    navController: NavController
 ) {
-    Column(modifier = Modifier.fillMaxSize()) {
-        VerticalSpacer40()
-        HomeHeadline(
-            stringResource(R.string.let_s_gonuts),
-            stringResource(R.string.order_your_favourite_donuts_from_here),
-            true
-        )
-        VerticalSpacer40()
-        Text(
-            text = stringResource(R.string.today_offers),
-            style = Typography.headlineSmall,
-            modifier = Modifier.padding(start = MaterialTheme.spacing.spacing_32)
-        )
-        VerticalSpacer24()
-        LazyRow(contentPadding = PaddingValues(horizontal = MaterialTheme.spacing.spacing_32)) {
-            itemsIndexed(state.offers) { index, item ->
-                val background = if (index % 2 == 0) CardBlue else CardPink
-                ItemDonutOffer(
-                    state = item,
-                    background,
-                    onClickItem = onClickItem,
-                    onClickFav = onClickFav
+    Scaffold(
+        bottomBar = {
+            BottomNavigation(
+                icon1 = R.drawable.icon_home,
+                icon2 = R.drawable.icon_heart_bottom_navigation,
+                icon3 = R.drawable.icon_notification,
+                icon4 = R.drawable.icon_cart,
+                icon5 = R.drawable.icon_profile,
+                modifier = Modifier.padding(bottom = 8.dp),
+                navController = navController
+            )
+        }
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(
+                    top = paddingValues.calculateTopPadding(),
+                    bottom = paddingValues.calculateBottomPadding()
                 )
-            }
-        }
-        VerticalSpacer32()
-        Text(
-            text = stringResource(R.string.donuts),
-            style = Typography.headlineSmall,
-            modifier = Modifier.padding(start = MaterialTheme.spacing.spacing_32)
-        )
-        VerticalSpacer16()
-        LazyRow(
-            contentPadding = PaddingValues(horizontal = MaterialTheme.spacing.spacing_32),
-            horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.spacing_24)
         ) {
-            items(state.donuts) {
-                ItemDonut(state = it, onClickItem = onClickItem)
+            VerticalSpacer40()
+            HomeHeadline(
+                stringResource(R.string.let_s_gonuts),
+                stringResource(R.string.order_your_favourite_donuts_from_here),
+                true
+            )
+            Text(
+                text = stringResource(R.string.today_offers),
+                style = Typography.headlineSmall,
+                modifier = Modifier.padding(start = 32.dp, bottom = 24.dp, top = 40.dp)
+            )
+            LazyRow(contentPadding = PaddingValues(horizontal = 32.dp)) {
+                itemsIndexed(state.offers) { index, item ->
+                    val background = if (index % 2 == 0) CardBlue else CardPink
+                    ItemDonutOffer(
+                        state = item,
+                        background,
+                        onClickItem = { listener.onClickItem(item.id) },
+                        onClickFav = { listener.onClickFav(item.id) }
+                    )
+                }
             }
-        }
-        BottomNavigation(
-            icon1 = R.drawable.icon_home,
-            icon2 = R.drawable.icon_heart_bottom_navigation,
-            icon3 = R.drawable.icon_notification,
-            icon4 = R.drawable.icon_cart,
-            icon5 = R.drawable.icon_profile
-        )
-        VerticalSpacer8()
+            Text(
+                text = stringResource(R.string.donuts),
+                style = Typography.headlineSmall,
+                modifier = Modifier.padding(start = 32.dp, top = 24.dp)
+            )
 
+            LazyRow(
+                contentPadding = PaddingValues(horizontal = 32.dp),
+                horizontalArrangement = Arrangement.spacedBy(24.dp)
+            ) {
+                items(state.donuts) {donut ->
+                    ItemDonut(state = donut, onClickItem = { listener.onClickItem(donut.id) })
+                }
+            }
+
+        }
     }
 
-}
-
-@Preview(showSystemUi = true)
-@Composable
-fun previewHome() {
-    HomeScreen(navController = NavController(LocalContext.current))
 }

@@ -4,7 +4,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 
-const val ROUTE = "Home"
+private const val ROUTE = "Home"
 
 fun NavController.navigateToHome() {
     navigate(ROUTE)

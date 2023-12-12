@@ -1,7 +1,6 @@
-package com.example.donuts.ui.composables
+package com.example.donuts.ui.screens.home.composable
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -27,6 +26,10 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import coil.compose.rememberAsyncImagePainter
 import com.example.donuts.R
+import com.example.donuts.ui.composables.CardIcon
+import com.example.donuts.ui.composables.HorizontalSpacer84
+import com.example.donuts.ui.composables.VerticalSpacer118
+import com.example.donuts.ui.composables.VerticalSpacer40
 import com.example.donuts.ui.dimens
 import com.example.donuts.ui.modifier.noRippleEffect
 import com.example.donuts.ui.radius

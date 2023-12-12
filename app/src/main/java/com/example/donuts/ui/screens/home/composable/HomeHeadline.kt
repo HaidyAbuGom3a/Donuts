@@ -1,4 +1,4 @@
-package com.example.donuts.ui.composables
+package com.example.donuts.ui.screens.home.composable
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import com.example.donuts.R
+import com.example.donuts.ui.composables.CardIcon
 import com.example.donuts.ui.radius
 import com.example.donuts.ui.spacing
 import com.example.donuts.ui.theme.Primary100
