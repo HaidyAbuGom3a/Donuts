@@ -12,7 +12,7 @@ class DetailsViewModel @Inject constructor(
     private val getDonutDetailsUseCase: GetDonutDetailsUseCase,
     savedStateHandle: SavedStateHandle
 ) :
-    BaseViewModel<DetailsUiState>(DetailsUiState()),DetailsEventHandler {
+    BaseViewModel<DetailsUiState, DetailsUiEffect>(DetailsUiState()), DetailsInteractionListener {
     private val args = DetailsArgs(savedStateHandle)
 
     init {
@@ -20,7 +20,15 @@ class DetailsViewModel @Inject constructor(
     }
 
     private fun getDonutDetails() {
-        val donut: DetailsUiState = getDonutDetailsUseCase(args.id.toInt()).toDetailsUiState()
+        tryToExecute(
+            { getDonutDetailsUseCase(args.id).toDetailsUiState() },
+            ::onGetDonutDetailsSuccess,
+            ::onError
+        )
+
+    }
+
+    private fun onGetDonutDetailsSuccess(donut: DetailsUiState) {
         _state.update {
             it.copy(
                 donutName = donut.donutName,
@@ -29,6 +37,10 @@ class DetailsViewModel @Inject constructor(
                 description = donut.description
             )
         }
+    }
+
+    private fun onError(e: Exception) {
+        println("error in details: $e")
     }
 
     override fun onClickPlusButton() {
@@ -41,6 +53,14 @@ class DetailsViewModel @Inject constructor(
             val newQuantity = _state.value.quantity - 1
             _state.update { it.copy(quantity = newQuantity) }
         }
+    }
+
+    override fun onClickAddToCart() {
+        sendNewEffect(DetailsUiEffect.ShowAddToCartMessage)
+    }
+
+    override fun onClickBackIcon() {
+        sendNewEffect(DetailsUiEffect.NavigateUp)
     }
 
     override fun onClickFav() {

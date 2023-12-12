@@ -1,7 +1,9 @@
 package com.example.donuts.ui.screens.details
 
-interface DetailsEventHandler {
+interface DetailsInteractionListener {
     fun onClickPlusButton()
     fun onClickMinusButton()
+    fun onClickAddToCart()
+    fun onClickBackIcon()
     fun onClickFav()
 }
