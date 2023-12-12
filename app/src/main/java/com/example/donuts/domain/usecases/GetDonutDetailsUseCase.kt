@@ -1,13 +1,13 @@
 package com.example.donuts.domain.usecases
 
-import com.example.donuts.domain.entities.DonutEntity
-import com.example.donuts.domain.repository.Repository
+import com.example.donuts.domain.entities.Donut
+import com.example.donuts.domain.repository.IDonutsRepository
 import javax.inject.Inject
 
 class GetDonutDetailsUseCase @Inject constructor(
-    private val repository: Repository
+    private val donutsRepo: IDonutsRepository
 ) {
-    operator fun invoke(donutId: Int): DonutEntity =
-        repository.getAllDonuts().find { it.id == donutId } ?: repository.getAllOffers()
-            .find { it.id == donutId }!!
+    suspend operator fun invoke(donutId: String): Donut {
+        return donutsRepo.getDonutDetails(donutId)
+    }
 }
