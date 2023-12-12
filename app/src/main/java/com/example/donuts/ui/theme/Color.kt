@@ -24,5 +24,8 @@ val Secondary = Color(0xFF585858)
 val CardBlue = Color(0xFFD7E4F6)
 val CardPink = Color(0xFFFFC7D0)
 
+val Grey100 = Color(0xFFECE9F7)
+val Grey200 = Color(0xFFF7F6FB)
+
 
 
