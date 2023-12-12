@@ -1,4 +1,4 @@
-package com.example.donuts.Composables
+package com.example.donuts.ui.composables
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -8,6 +8,6 @@ import androidx.compose.ui.Modifier
 import com.example.donuts.ui.spacing
 
 @Composable
-fun VerticalSpacer24(){
-    Spacer(modifier = Modifier.height(MaterialTheme.spacing.spacing_24))
+fun VerticalSpacer54(){
+    Spacer(modifier = Modifier.height(MaterialTheme.spacing.spacing_54))
 }

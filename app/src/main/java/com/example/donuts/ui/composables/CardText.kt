@@ -1,6 +1,5 @@
-package com.example.donuts.Composables
+package com.example.donuts.ui.composables
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
@@ -13,6 +12,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import com.example.donuts.ui.modifier.noRippleEffect
 import com.example.donuts.ui.spacing
 import com.example.donuts.ui.theme.Primary300
 import com.example.donuts.ui.theme.White
@@ -29,7 +29,7 @@ fun CardText(
     contentColor: Color = Primary300,
     contentPadding: PaddingValues = PaddingValues(MaterialTheme.spacing.spacing_8)
 ) {
-    val newModifier = if(isClickable) modifier.clickable { onClick() } else modifier
+    val newModifier = if(isClickable) modifier.noRippleEffect { onClick() } else modifier
     Card(
         colors = CardDefaults.cardColors(
             containerColor = containerColor,

@@ -1,7 +1,6 @@
-package com.example.donuts.Composables
+package com.example.donuts.ui.composables
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,11 +15,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import coil.compose.rememberAsyncImagePainter
 import com.example.donuts.R
 import com.example.donuts.ui.dimens
+import com.example.donuts.ui.modifier.noRippleEffect
 import com.example.donuts.ui.radius
 import com.example.donuts.ui.screens.home.DonutUiState
 import com.example.donuts.ui.spacing
@@ -30,9 +30,9 @@ import com.example.donuts.ui.theme.White
 
 
 @Composable
-fun ItemDonut(state: DonutUiState, onClickItem: (Int) -> Unit) {
+fun ItemDonut(state: DonutUiState, onClickItem: (String) -> Unit) {
     Box(
-        modifier = Modifier.clickable { onClickItem(state.id) },
+        modifier = Modifier.noRippleEffect { onClickItem(state.id) },
         contentAlignment = Alignment.Center
     ) {
         Card(
@@ -60,7 +60,7 @@ fun ItemDonut(state: DonutUiState, onClickItem: (Int) -> Unit) {
                 VerticalSpacer8()
                 Text(
                     text = stringResource(id = R.string.dollar)
-                            + state.newPrice.toString(),
+                            + state.price.toString(),
                     style = Typography.displaySmall,
                     fontWeight = FontWeight.SemiBold,
                     color = Primary300
@@ -71,7 +71,7 @@ fun ItemDonut(state: DonutUiState, onClickItem: (Int) -> Unit) {
         }
 
         Image(
-            painter = painterResource(id = state.image),
+            painter = rememberAsyncImagePainter(model = state.image),
             contentDescription = "",
             modifier = Modifier
                 .padding(bottom = MaterialTheme.spacing.spacing_84)

@@ -1,4 +1,4 @@
-package com.example.donuts.Composables
+package com.example.donuts.ui.composables
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -25,8 +25,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
+import coil.compose.rememberAsyncImagePainter
 import com.example.donuts.R
 import com.example.donuts.ui.dimens
+import com.example.donuts.ui.modifier.noRippleEffect
 import com.example.donuts.ui.radius
 import com.example.donuts.ui.screens.home.DonutUiState
 import com.example.donuts.ui.spacing
@@ -37,15 +39,15 @@ import com.example.donuts.ui.theme.Typography
 fun ItemDonutOffer(
     state: DonutUiState,
     background: Color,
-    onClickItem: (Int) -> Unit,
-    onClickFav: (Int) -> Unit
+    onClickItem: (String) -> Unit,
+    onClickFav: (String) -> Unit
 ) {
     Box {
         Card(
             modifier = Modifier
                 .height(MaterialTheme.dimens.dimens_280)
                 .width(MaterialTheme.dimens.dimens_173)
-                .clickable { onClickItem(state.id) },
+                .noRippleEffect { onClickItem(state.id) },
             colors = CardDefaults.cardColors(containerColor = background),
             shape = RoundedCornerShape(MaterialTheme.radius.radius_20)
         ) {
@@ -89,7 +91,7 @@ fun ItemDonutOffer(
                             .padding(top = MaterialTheme.spacing.spacing_16),
                     )
                     Text(
-                        stringResource(R.string.dollar) + state.newPrice.toString(),
+                        stringResource(R.string.dollar) + state.price.toString(),
                         style = Typography.displayMedium,
                         fontWeight = FontWeight.SemiBold,
                         modifier = Modifier
@@ -110,7 +112,7 @@ fun ItemDonutOffer(
                 Image(
                     modifier = Modifier
                         .size(MaterialTheme.dimens.dimens_130),
-                    painter = painterResource(id = state.image),
+                    painter = rememberAsyncImagePainter(model = state.image),
                     contentScale = ContentScale.FillWidth,
                     contentDescription = null
                 )

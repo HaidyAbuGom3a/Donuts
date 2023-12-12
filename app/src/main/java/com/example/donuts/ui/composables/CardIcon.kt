@@ -1,6 +1,5 @@
-package com.example.donuts.Composables
+package com.example.donuts.ui.composables
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -13,6 +12,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.Dp
+import com.example.donuts.ui.modifier.noRippleEffect
 import com.example.donuts.ui.spacing
 import com.example.donuts.ui.theme.Primary300
 import com.example.donuts.ui.theme.White
@@ -36,7 +36,7 @@ fun <T> CardIcon(
             contentColor = contentColor
         ),
         modifier = modifier
-            .clickable { if(parameter != null) onClickWithArgs(parameter) else onClick() },
+            .noRippleEffect { if(parameter != null) onClickWithArgs(parameter) else onClick() },
         shape = shape,
         elevation = elevation
     ) {
