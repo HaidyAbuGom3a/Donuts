@@ -1,5 +1,6 @@
 package com.example.donuts.ui.screens.signup
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,8 +25,8 @@ import com.example.donuts.R
 import com.example.donuts.ui.composables.DonutsButton
 import com.example.donuts.ui.composables.DonutsTextField
 import com.example.donuts.ui.screens.login.navigateToLogin
+import com.example.donuts.ui.theme.BACKGROUND
 import com.example.donuts.ui.theme.Primary300
-import com.example.donuts.ui.theme.White
 import com.example.donuts.ui.util.EffectHandler
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
@@ -36,7 +37,8 @@ fun SignUpScreen(
 ) {
     val state by viewModel.state.collectAsState()
     val systemUiController = rememberSystemUiController()
-    systemUiController.setSystemBarsColor(White, darkIcons = true)
+    systemUiController.setSystemBarsColor(BACKGROUND)
+    systemUiController.setStatusBarColor(BACKGROUND, darkIcons = true)
     EffectHandler(effects = viewModel.effect) { effect ->
         when (effect) {
             SignUpUiEffect.NavigateToLogin -> navController.navigateToLogin()
@@ -48,7 +50,9 @@ fun SignUpScreen(
 
 @Composable
 fun SignUpContent(state: SignUpUiState, listener: SignUpInteractionListener) {
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .background(BACKGROUND)) {
         Text(
             "Sign Up",
             style = MaterialTheme.typography.headlineLarge,

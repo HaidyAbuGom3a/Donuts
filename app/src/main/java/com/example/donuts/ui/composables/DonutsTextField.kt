@@ -126,8 +126,8 @@ fun outlinedTextFieldColorDefaults() = OutlinedTextFieldDefaults.colors(
     focusedContainerColor = Grey100,
     unfocusedContainerColor = Grey100,
     cursorColor = Primary300,
-    focusedBorderColor = Grey100,
-    unfocusedBorderColor = Grey200,
+    focusedBorderColor = Grey200,
+    unfocusedBorderColor = Grey100,
 )
 
 @Composable

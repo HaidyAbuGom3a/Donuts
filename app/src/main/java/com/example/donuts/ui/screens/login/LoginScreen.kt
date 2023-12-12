@@ -1,5 +1,6 @@
 package com.example.donuts.ui.screens.login
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,8 +29,8 @@ import com.example.donuts.ui.composables.DonutsTextField
 import com.example.donuts.ui.modifier.noRippleEffect
 import com.example.donuts.ui.screens.home.navigateToHome
 import com.example.donuts.ui.screens.signup.navigateToSignUp
+import com.example.donuts.ui.theme.BACKGROUND
 import com.example.donuts.ui.theme.Primary300
-import com.example.donuts.ui.theme.White
 import com.example.donuts.ui.util.EffectHandler
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
@@ -40,7 +41,8 @@ fun LoginScreen(
 ) {
     val state by viewModel.state.collectAsState()
     val systemUiController = rememberSystemUiController()
-    systemUiController.setSystemBarsColor(White, darkIcons = true)
+    systemUiController.setSystemBarsColor(BACKGROUND)
+    systemUiController.setStatusBarColor(BACKGROUND, darkIcons = true)
     EffectHandler(effects = viewModel.effect) { effect ->
         when (effect) {
             LoginUiEffect.NavigateToHome -> navController.navigateToHome()
@@ -53,7 +55,7 @@ fun LoginScreen(
 
 @Composable
 fun LoginContent(state: LoginUiState, listener: LoginInteractionListener) {
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(modifier = Modifier.fillMaxSize().background(BACKGROUND)) {
         Text(
             "Login",
             style = MaterialTheme.typography.headlineLarge,

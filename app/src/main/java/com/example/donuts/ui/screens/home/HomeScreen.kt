@@ -1,5 +1,6 @@
 package com.example.donuts.ui.screens.home
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -14,20 +15,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.donuts.R
 import com.example.donuts.ui.composables.BottomNavigation
+import com.example.donuts.ui.screens.details.navigateToDetails
 import com.example.donuts.ui.screens.home.composable.HomeHeadline
 import com.example.donuts.ui.screens.home.composable.ItemDonut
 import com.example.donuts.ui.screens.home.composable.ItemDonutOffer
-import com.example.donuts.ui.composables.VerticalSpacer40
-import com.example.donuts.ui.screens.details.navigateToDetails
+import com.example.donuts.ui.theme.BACKGROUND
 import com.example.donuts.ui.theme.CardBlue
 import com.example.donuts.ui.theme.CardPink
 import com.example.donuts.ui.theme.Typography
@@ -40,8 +37,8 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val systemUiController = rememberSystemUiController()
-    systemUiController.setSystemBarsColor(Color.Transparent)
-    systemUiController.setStatusBarColor(Color.Transparent, darkIcons = true)
+    systemUiController.setSystemBarsColor(BACKGROUND)
+    systemUiController.setStatusBarColor(BACKGROUND, darkIcons = true)
     val state by viewModel.state.collectAsState()
     EffectHandler(effects = viewModel.effect){ effect ->
         when(effect){
@@ -74,12 +71,12 @@ fun HomeContent(
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .background(BACKGROUND)
                 .padding(
-                    top = paddingValues.calculateTopPadding(),
+                    top = paddingValues.calculateTopPadding() + 40.dp,
                     bottom = paddingValues.calculateBottomPadding()
                 )
         ) {
-            VerticalSpacer40()
             HomeHeadline(
                 "Let's Gonuts!",
                 "Order your favourite donuts from here",

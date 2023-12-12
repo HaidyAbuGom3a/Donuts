@@ -22,7 +22,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -31,6 +30,7 @@ import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.donuts.R
 import com.example.donuts.ui.modifier.noRippleEffect
+import com.example.donuts.ui.theme.BACKGROUND
 import com.example.donuts.ui.theme.Black60
 import com.example.donuts.ui.theme.Primary200
 import com.example.donuts.ui.theme.Primary300
@@ -41,8 +41,8 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 fun ProfileScreen(navController: NavController, viewModel: ProfileViewModel = hiltViewModel()) {
     val state by viewModel.state.collectAsState()
     val systemUiController = rememberSystemUiController()
-    systemUiController.setSystemBarsColor(Color.Transparent)
-    systemUiController.setStatusBarColor(Color.Transparent, darkIcons = true)
+    systemUiController.setSystemBarsColor(BACKGROUND)
+    systemUiController.setStatusBarColor(BACKGROUND, darkIcons = true)
     EffectHandler(effects = viewModel.effect) { effect ->
         when (effect) {
             ProfileUiEffect.NavigateUp -> navController.popBackStack()
@@ -54,7 +54,7 @@ fun ProfileScreen(navController: NavController, viewModel: ProfileViewModel = hi
 
 @Composable
 fun ProfileContent(state: ProfileUiState, listener: ProfileInteractionListener) {
-    Column(modifier = Modifier.fillMaxSize())
+    Column(modifier = Modifier.fillMaxSize().background(BACKGROUND))
     {
         Icon(
             painter = painterResource(id = R.drawable.icon_back),

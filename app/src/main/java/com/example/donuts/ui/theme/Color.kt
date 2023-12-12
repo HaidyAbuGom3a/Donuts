@@ -27,5 +27,7 @@ val CardPink = Color(0xFFFFC7D0)
 val Grey100 = Color(0xFFECE9F7)
 val Grey200 = Color(0xFFF7F6FB)
 
+val BACKGROUND = Color(0xFFF5F5F5)
+
 
 
