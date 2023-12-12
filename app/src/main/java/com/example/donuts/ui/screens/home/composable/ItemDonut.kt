@@ -15,18 +15,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import com.example.donuts.R
-import com.example.donuts.ui.composables.VerticalSpacer24
-import com.example.donuts.ui.composables.VerticalSpacer32
-import com.example.donuts.ui.composables.VerticalSpacer8
-import com.example.donuts.ui.dimens
 import com.example.donuts.ui.modifier.noRippleEffect
 import com.example.donuts.ui.radius
 import com.example.donuts.ui.screens.home.DonutUiState
-import com.example.donuts.ui.spacing
 import com.example.donuts.ui.theme.Primary300
 import com.example.donuts.ui.theme.Typography
 import com.example.donuts.ui.theme.White
@@ -40,8 +34,8 @@ fun ItemDonut(state: DonutUiState, onClickItem: (String) -> Unit) {
     ) {
         Card(
             modifier = Modifier
-                .width(MaterialTheme.dimens.dimens_138)
-                .padding(top = MaterialTheme.spacing.spacing_24),
+                .width(138.dp)
+                .padding(top = 24.dp),
             shape = RoundedCornerShape(
                 topStart = MaterialTheme.radius.radius_20,
                 topEnd = MaterialTheme.radius.radius_20,
@@ -54,21 +48,19 @@ fun ItemDonut(state: DonutUiState, onClickItem: (String) -> Unit) {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                VerticalSpacer32()
                 Text(
                     state.name,
                     style = Typography.titleSmall,
-                    modifier = Modifier.padding(top = MaterialTheme.spacing.spacing_8)
+                    modifier = Modifier.padding(top = 40.dp, bottom = 8.dp)
                 )
-                VerticalSpacer8()
                 Text(
-                    text = stringResource(id = R.string.dollar)
+                    text = "$"
                             + state.price.toString(),
                     style = Typography.displaySmall,
                     fontWeight = FontWeight.SemiBold,
-                    color = Primary300
+                    color = Primary300,
+                    modifier = Modifier.padding(bottom = 24.dp)
                 )
-                VerticalSpacer24()
             }
 
         }
@@ -77,9 +69,9 @@ fun ItemDonut(state: DonutUiState, onClickItem: (String) -> Unit) {
             painter = rememberAsyncImagePainter(model = state.image),
             contentDescription = "",
             modifier = Modifier
-                .padding(bottom = MaterialTheme.spacing.spacing_84)
-                .width(MaterialTheme.dimens.dimens_104)
-                .height(MaterialTheme.dimens.dimens_112)
+                .padding(bottom = 84.dp)
+                .width(104.dp)
+                .height(112.dp)
         )
     }
 }

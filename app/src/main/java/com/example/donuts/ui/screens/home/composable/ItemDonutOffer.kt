@@ -20,21 +20,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.example.donuts.R
 import com.example.donuts.ui.composables.CardIcon
-import com.example.donuts.ui.composables.HorizontalSpacer84
-import com.example.donuts.ui.composables.VerticalSpacer118
-import com.example.donuts.ui.composables.VerticalSpacer40
-import com.example.donuts.ui.dimens
 import com.example.donuts.ui.modifier.noRippleEffect
 import com.example.donuts.ui.radius
 import com.example.donuts.ui.screens.home.DonutUiState
-import com.example.donuts.ui.spacing
 import com.example.donuts.ui.theme.Black60
 import com.example.donuts.ui.theme.Typography
 
@@ -48,8 +43,8 @@ fun ItemDonutOffer(
     Box {
         Card(
             modifier = Modifier
-                .height(MaterialTheme.dimens.dimens_280)
-                .width(MaterialTheme.dimens.dimens_173)
+                .height(280.dp)
+                .width(173.dp)
                 .noRippleEffect { onClickItem(state.id) },
             colors = CardDefaults.cardColors(containerColor = background),
             shape = RoundedCornerShape(MaterialTheme.radius.radius_20)
@@ -62,64 +57,51 @@ fun ItemDonutOffer(
                     shape = CircleShape,
                     state.id,
                     modifier = Modifier.padding(
-                        start = MaterialTheme.spacing.spacing_16,
-                        top = MaterialTheme.spacing.spacing_16
+                        start = 16.dp,
+                        top = 16.dp
                     ),
                     onClickFav
                 )
-                VerticalSpacer118()
                 Text(
                     state.name,
                     style = Typography.titleMedium,
-                    modifier = Modifier.padding(start = MaterialTheme.spacing.spacing_16)
+                    modifier = Modifier.padding(start = 16.dp, top = 118.dp)
                 )
                 Text(
                     state.description,
                     style = Typography.bodySmall,
-                    modifier = Modifier
-                        .padding(horizontal = MaterialTheme.spacing.spacing_16)
-                        .padding(top = MaterialTheme.spacing.spacing_8),
+                    modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp),
                     maxLines = 3,
                     overflow = TextOverflow.Ellipsis
                 )
                 Row {
                     Spacer(modifier = Modifier.weight(1f))
                     Text(
-                        stringResource(R.string.dollar) + state.oldPrice.toString(),
+                        "$" + state.oldPrice.toString(),
                         style = Typography.displaySmall,
                         textDecoration = TextDecoration.LineThrough,
                         fontWeight = FontWeight.SemiBold,
                         color = Black60,
                         modifier = Modifier
-                            .padding(top = MaterialTheme.spacing.spacing_16),
+                            .padding(top = 16.dp),
                     )
                     Text(
-                        stringResource(R.string.dollar) + state.price.toString(),
+                        "$" + state.price.toString(),
                         style = Typography.displayMedium,
                         fontWeight = FontWeight.SemiBold,
-                        modifier = Modifier
-                            .padding(
-                                top = MaterialTheme.spacing.spacing_8,
-                                end = MaterialTheme.spacing.spacing_16,
-                                start = MaterialTheme.spacing.spacing_4
-                            ),
+                        modifier = Modifier.padding(top = 8.dp, end = 16.dp, start = 4.dp),
                     )
                 }
 
             }
         }
-        Column {
-            VerticalSpacer40()
-            Row {
-                HorizontalSpacer84()
-                Image(
-                    modifier = Modifier
-                        .size(MaterialTheme.dimens.dimens_130),
-                    painter = rememberAsyncImagePainter(model = state.image),
-                    contentScale = ContentScale.FillWidth,
-                    contentDescription = null
-                )
-            }
+        Box(Modifier.padding(top = 40.dp, start = 84.dp)) {
+            Image(
+                modifier = Modifier.size(130.dp),
+                painter = rememberAsyncImagePainter(model = state.image),
+                contentScale = ContentScale.FillWidth,
+                contentDescription = null
+            )
         }
     }
 }
