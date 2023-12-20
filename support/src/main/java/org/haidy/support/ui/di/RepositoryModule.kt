@@ -1,34 +1,23 @@
-package com.example.donuts.ui.di
+package org.haidy.support.ui.di
 
-import com.example.donuts.data.fake.DataSourceImp
-import com.example.donuts.data.local.IDataStore
-import com.example.donuts.data.repository.AuthRepositoryImp
-import com.example.donuts.data.repository.ChatRepositoryImp
-import com.example.donuts.data.repository.DonutsRepositoryImp
-import com.example.donuts.data.repository.UserRepositoryImp
-import com.example.donuts.domain.repository.IAuthRepository
-import com.example.donuts.domain.repository.IChatRepository
-import com.example.donuts.domain.repository.IDonutsRepository
-import com.example.donuts.domain.repository.IUserRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import org.haidy.support.data.local.IDataStore
+import org.haidy.support.data.repository.AuthRepositoryImp
+import org.haidy.support.data.repository.ChatRepositoryImp
+import org.haidy.support.data.repository.UserRepositoryImp
+import org.haidy.support.domain.repository.IAuthRepository
+import org.haidy.support.domain.repository.IChatRepository
+import org.haidy.support.domain.repository.IUserRepository
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 internal object RepositoryModule {
-    @Singleton
-    @Provides
-    fun bindRepository(
-        dataSource: DataSourceImp,
-        firestore: FirebaseFirestore
-    ): IDonutsRepository {
-        return DonutsRepositoryImp(dataSource, firestore)
-    }
 
     @Singleton
     @Provides

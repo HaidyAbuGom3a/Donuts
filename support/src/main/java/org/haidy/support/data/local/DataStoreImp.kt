@@ -1,4 +1,4 @@
-package com.example.donuts.data.local
+package org.haidy.support.data.local
 
 import android.content.Context
 import androidx.datastore.core.DataStore
@@ -14,9 +14,8 @@ import javax.inject.Inject
 class DataStoreImp @Inject constructor(context: Context) : IDataStore {
 
     companion object {
-        private const val PREFERENCES_FILE_NAME = "donuts"
+        private const val PREFERENCES_FILE_NAME = "donuts_support"
         private val IS_LOGGED = booleanPreferencesKey("is_active")
-        private val IS_FIRST_TIME = booleanPreferencesKey("is_first_time")
         private val USER_ID = stringPreferencesKey("user_id")
     }
 
@@ -42,16 +41,5 @@ class DataStoreImp @Inject constructor(context: Context) : IDataStore {
 
     override suspend fun getIfLoggedIn(): Boolean {
         return prefDataStore.data.map { preferences -> preferences[IS_LOGGED] }.first() ?: false
-    }
-
-
-    override suspend fun saveIfFirstTimeUseApp(isFirstTime: Boolean) {
-        prefDataStore.edit { preferences ->
-            preferences[IS_FIRST_TIME] = isFirstTime
-        }
-    }
-
-    override suspend fun getIfFirstTimeUseApp(): Boolean {
-        return prefDataStore.data.map { preferences -> preferences[IS_FIRST_TIME] }.first() ?: true
     }
 }
