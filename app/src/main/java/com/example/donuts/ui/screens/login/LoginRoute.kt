@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 private const val ROUTE = "Login"
 
 fun NavController.navigateToLogin() {
+    popBackStack()
     navigate(ROUTE)
 }
 

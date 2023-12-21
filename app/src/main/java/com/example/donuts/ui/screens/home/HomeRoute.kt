@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 private const val ROUTE = "Home"
 
 fun NavController.navigateToHome() {
+    popBackStack()
     navigate(ROUTE)
 }
 

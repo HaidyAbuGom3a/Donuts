@@ -25,7 +25,7 @@ abstract class BaseViewModel<S, E>(state: S) : ViewModel() {
 
 
     protected fun sendNewEffect(newEffect: E) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.Default) {
             _effect.emit(newEffect)
         }
     }
@@ -36,7 +36,7 @@ abstract class BaseViewModel<S, E>(state: S) : ViewModel() {
         onSuccess: (T) -> Unit,
         onError: (Exception) -> Unit,
     ) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.Default) {
             try {
                 val response = function()
                 onSuccess(response)
@@ -53,7 +53,7 @@ abstract class BaseViewModel<S, E>(state: S) : ViewModel() {
         onError: (Exception) -> Unit,
         inScope: CoroutineScope = viewModelScope,
     ): Job {
-        return inScope.launch(Dispatchers.IO) {
+        return inScope.launch(Dispatchers.Default) {
             try {
                 function().distinctUntilChanged().collectLatest {
                     onNewValue(it)

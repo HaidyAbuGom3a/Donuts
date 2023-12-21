@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -54,59 +55,66 @@ fun ProfileScreen(navController: NavController, viewModel: ProfileViewModel = hi
 
 @Composable
 fun ProfileContent(state: ProfileUiState, listener: ProfileInteractionListener) {
-    Column(modifier = Modifier.fillMaxSize().background(BACKGROUND))
-    {
-        Icon(
-            painter = painterResource(id = R.drawable.icon_back),
-            contentDescription = "",
+    Scaffold { paddingValues ->
+        Column(
             modifier = Modifier
-                .padding(
-                    start = 32.dp,
-                    top = 32.dp,
-                    bottom = 32.dp
-                )
-                .noRippleEffect { listener.onClickBackIcon() },
-            tint = Primary300
+                .fillMaxSize()
+                .padding(paddingValues)
+                .background(BACKGROUND)
         )
-
-
-        Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-            Image(
+        {
+            Icon(
+                painter = painterResource(id = R.drawable.icon_back),
+                contentDescription = "",
                 modifier = Modifier
-                    .size(200.dp)
-                    .border(4.dp, color = Primary200.copy(alpha = 0.3f), shape = CircleShape)
-                    .padding(4.dp)
-                    .clip(CircleShape),
-                painter = rememberAsyncImagePainter(state.imageUrl),
-                contentDescription = "profile image",
-                contentScale = ContentScale.Crop
+                    .padding(
+                        start = 32.dp,
+                        top = 32.dp,
+                        bottom = 32.dp
+                    )
+                    .noRippleEffect { listener.onClickBackIcon() },
+                tint = Primary300
             )
+
+
+            Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+                Image(
+                    modifier = Modifier
+                        .size(200.dp)
+                        .border(4.dp, color = Primary200.copy(alpha = 0.3f), shape = CircleShape)
+                        .padding(4.dp)
+                        .clip(CircleShape),
+                    painter = rememberAsyncImagePainter(state.imageUrl),
+                    contentDescription = "profile image",
+                    contentScale = ContentScale.Crop
+                )
+            }
+
+            TitleWithValue(
+                title = "Username",
+                value = state.userName,
+                modifier = Modifier.padding(top = 64.dp, bottom = 16.dp)
+            )
+
+            HorizontalLine()
+
+            TitleWithValue(
+                title = "Email",
+                value = state.email,
+                modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
+            )
+
+            HorizontalLine()
+
+            TitleWithValue(
+                title = "Address",
+                value = state.address,
+                modifier = Modifier.padding(top = 16.dp)
+            )
+
+            Spacer(Modifier.weight(1f))
+
         }
-
-        TitleWithValue(
-            title = "Username",
-            value = state.userName,
-            modifier = Modifier.padding(top = 64.dp, bottom = 16.dp)
-        )
-
-        HorizontalLine()
-
-        TitleWithValue(
-            title = "Email",
-            value = state.email,
-            modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
-        )
-
-        HorizontalLine()
-
-        TitleWithValue(
-            title = "Address",
-            value = state.address,
-            modifier = Modifier.padding(top = 16.dp)
-        )
-
-        Spacer(Modifier.weight(1f))
-
     }
 }
 

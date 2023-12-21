@@ -18,8 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.donuts.R
-import com.example.donuts.ui.composables.BottomNavigation
 import com.example.donuts.ui.screens.details.navigateToDetails
 import com.example.donuts.ui.screens.home.composable.HomeHeadline
 import com.example.donuts.ui.screens.home.composable.ItemDonut
@@ -40,34 +38,21 @@ fun HomeScreen(
     systemUiController.setSystemBarsColor(BACKGROUND)
     systemUiController.setStatusBarColor(BACKGROUND, darkIcons = true)
     val state by viewModel.state.collectAsState()
-    EffectHandler(effects = viewModel.effect){ effect ->
-        when(effect){
+    EffectHandler(effects = viewModel.effect) { effect ->
+        when (effect) {
             is HomeUiEffect.NavigateToDonutDetails -> navController.navigateToDetails(effect.id)
         }
     }
-    HomeContent(state = state, viewModel, navController)
+    HomeContent(state = state, viewModel)
 
 }
 
 @Composable
 fun HomeContent(
     state: HomeUiState,
-    listener: HomeInteractionListener,
-    navController: NavController
+    listener: HomeInteractionListener
 ) {
-    Scaffold(
-        bottomBar = {
-            BottomNavigation(
-                icon1 = R.drawable.icon_home,
-                icon2 = R.drawable.icon_heart_bottom_navigation,
-                icon3 = R.drawable.icon_notification,
-                icon4 = R.drawable.icon_cart,
-                icon5 = R.drawable.icon_profile,
-                modifier = Modifier.padding(bottom = 8.dp),
-                navController = navController
-            )
-        }
-    ) { paddingValues ->
+    Scaffold { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -108,7 +93,7 @@ fun HomeContent(
                 contentPadding = PaddingValues(horizontal = 32.dp),
                 horizontalArrangement = Arrangement.spacedBy(24.dp)
             ) {
-                items(state.donuts) {donut ->
+                items(state.donuts) { donut ->
                     ItemDonut(state = donut, onClickItem = { listener.onClickItem(donut.id) })
                 }
             }
