@@ -1,6 +1,5 @@
 package com.example.donuts.ui.di
 
-import com.example.donuts.data.fake.DataSourceImp
 import com.example.donuts.data.local.IDataStore
 import com.example.donuts.data.repository.AuthRepositoryImp
 import com.example.donuts.data.repository.ChatRepositoryImp
@@ -24,10 +23,10 @@ internal object RepositoryModule {
     @Singleton
     @Provides
     fun bindRepository(
-        dataSource: DataSourceImp,
+        dataStore: IDataStore,
         firestore: FirebaseFirestore
     ): IDonutsRepository {
-        return DonutsRepositoryImp(dataSource, firestore)
+        return DonutsRepositoryImp(dataStore, firestore)
     }
 
     @Singleton
