@@ -19,6 +19,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun getAllDonuts() {
+        _state.update { it.copy(isLoading = true) }
         tryToExecute(
             { getAllDonutsUseCase().map { it.toDonutUiState() } },
             ::onGetDonutsSuccess,
@@ -27,6 +28,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun getAllOffers() {
+        _state.update { it.copy(isLoading = true) }
         tryToExecute(
             { getOffersUseCase().map { it.toDonutUiState() } },
             ::onGetOffersSuccess,
@@ -54,15 +56,16 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun onGetDonutsSuccess(donuts: List<DonutUiState>) {
-        _state.update { it.copy(donuts = donuts) }
+        _state.update { it.copy(donuts = donuts, isLoading = false) }
     }
 
     private fun onGetOffersSuccess(offers: List<DonutUiState>) {
-        _state.update { it.copy(offers = offers) }
+        _state.update { it.copy(offers = offers, isLoading = false) }
     }
 
     private fun onError(e: Exception) {
         println("haidy error $e")
+        _state.update { it.copy(isLoading = false) }
     }
 
 }

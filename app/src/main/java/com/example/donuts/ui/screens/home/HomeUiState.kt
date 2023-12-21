@@ -4,6 +4,7 @@ import com.example.donuts.domain.entities.Donut
 import kotlin.math.round
 
 data class HomeUiState(
+    val isLoading: Boolean = false,
     val donuts: List<DonutUiState> = emptyList(),
     val offers: List<DonutUiState> = emptyList()
 )

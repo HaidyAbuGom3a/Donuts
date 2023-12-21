@@ -1,5 +1,6 @@
 package com.example.donuts.ui.screens.home
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -21,7 +22,9 @@ import androidx.navigation.NavController
 import com.example.donuts.ui.screens.details.navigateToDetails
 import com.example.donuts.ui.screens.home.composable.HomeHeadline
 import com.example.donuts.ui.screens.home.composable.ItemDonut
+import com.example.donuts.ui.screens.home.composable.ItemDonutLoading
 import com.example.donuts.ui.screens.home.composable.ItemDonutOffer
+import com.example.donuts.ui.screens.home.composable.ItemDonutOfferLoading
 import com.example.donuts.ui.theme.BACKGROUND
 import com.example.donuts.ui.theme.CardBlue
 import com.example.donuts.ui.theme.CardPink
@@ -72,6 +75,16 @@ fun HomeContent(
                 style = Typography.headlineSmall,
                 modifier = Modifier.padding(start = 32.dp, bottom = 24.dp, top = 40.dp)
             )
+            AnimatedVisibility(visible = state.donuts.isEmpty()) {
+                LazyRow(
+                    contentPadding = PaddingValues(horizontal = 32.dp),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    items(4) {
+                        ItemDonutOfferLoading()
+                    }
+                }
+            }
             LazyRow(contentPadding = PaddingValues(horizontal = 32.dp)) {
                 itemsIndexed(state.offers) { index, item ->
                     val background = if (index % 2 == 0) CardBlue else CardPink
@@ -88,6 +101,17 @@ fun HomeContent(
                 style = Typography.headlineSmall,
                 modifier = Modifier.padding(start = 32.dp, top = 24.dp)
             )
+
+            AnimatedVisibility(visible = state.isLoading) {
+                LazyRow(
+                    contentPadding = PaddingValues(horizontal = 32.dp),
+                    horizontalArrangement = Arrangement.spacedBy(24.dp)
+                ) {
+                    items(6){
+                        ItemDonutLoading()
+                    }
+                }
+            }
 
             LazyRow(
                 contentPadding = PaddingValues(horizontal = 32.dp),

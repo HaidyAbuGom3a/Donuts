@@ -29,5 +29,5 @@ val Grey200 = Color(0xFFF7F6FB)
 
 val BACKGROUND = Color(0xFFF5F5F5)
 
-
+val CONTENT_BORDER = Color(0x141F0000)
 
