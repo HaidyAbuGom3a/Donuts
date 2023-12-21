@@ -51,7 +51,7 @@ fun MessageCard(message: MessageUIState, showImage: Boolean = false) {
         }
         Text(
             text = message.message,
-            style = MaterialTheme.typography.bodySmall,
+            style = MaterialTheme.typography.bodyMedium,
             color = Secondary,
             modifier = Modifier
                 .padding(start = 4.dp)

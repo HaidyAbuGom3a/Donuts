@@ -19,6 +19,7 @@ import com.example.donuts.ui.composables.DonutsBottomNavItem
 import com.example.donuts.ui.composables.DonutsBottomNavigation
 import com.example.donuts.ui.navigation.Destination
 import com.example.donuts.ui.navigation.DonutsNavGraph
+import com.example.donuts.ui.theme.DonutsTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -53,13 +54,14 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val navController = rememberNavController()
-            val viewModel: MainViewModel = hiltViewModel()
-            val state by viewModel.state.collectAsState()
-            if (state.isCompleted) {
-                ShowContent(navController, state.destination)
+            DonutsTheme {
+                val navController = rememberNavController()
+                val viewModel: MainViewModel = hiltViewModel()
+                val state by viewModel.state.collectAsState()
+                if (state.isCompleted) {
+                    ShowContent(navController, state.destination)
+                }
             }
-
         }
 
 

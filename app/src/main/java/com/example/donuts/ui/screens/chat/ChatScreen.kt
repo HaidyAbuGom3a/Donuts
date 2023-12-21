@@ -1,30 +1,40 @@
 package com.example.donuts.ui.screens.chat
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.Density
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.donuts.R
 import com.example.donuts.ui.composables.DonutsTextField
+import com.example.donuts.ui.modifier.noRippleEffect
 import com.example.donuts.ui.screens.chat.composable.MessageCard
 import com.example.donuts.ui.theme.BACKGROUND
+import com.example.donuts.ui.theme.Primary300
 import com.example.donuts.ui.util.EffectHandler
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlin.math.abs
@@ -33,8 +43,8 @@ import kotlin.math.abs
 fun ChatScreen(viewModel: ChatViewModel = hiltViewModel(), navController: NavController) {
     val state by viewModel.state.collectAsState()
     val systemUiController = rememberSystemUiController()
-    systemUiController.setSystemBarsColor(BACKGROUND)
     systemUiController.setStatusBarColor(BACKGROUND, darkIcons = true)
+    systemUiController.setNavigationBarColor(BACKGROUND, darkIcons = true)
     EffectHandler(effects = viewModel.effect) { effect ->
         when (effect) {
             ChatUiEffect.NavigateUp -> navController.popBackStack()
@@ -51,6 +61,31 @@ fun ChatContent(state: ChatUIState, listener: ChatInteractionListener) {
         scrollState.animateScrollToItem(abs(state.messages.size - 1))
     }
     Scaffold(
+        topBar = {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Icon(
+                    painter = painterResource(id = R.drawable.icon_back),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .padding(
+                            start = 32.dp,
+                            top = 32.dp,
+                            bottom = 32.dp
+                        )
+                        .size(24.dp)
+                        .noRippleEffect { listener.onClickBackIcon() },
+                    tint = Primary300
+                )
+                Text(
+                    text = "Customer Support",
+                    style = MaterialTheme.typography.headlineSmall,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 32.dp),
+                    textAlign = TextAlign.Center
+                )
+            }
+        },
         bottomBar = {
             DonutsTextField(
                 text = state.message,
@@ -60,55 +95,47 @@ fun ChatContent(state: ChatUIState, listener: ChatInteractionListener) {
                 isSingleLine = false,
                 trailingPainter = painterResource(R.drawable.send_icon),
                 onTrailingIconClick = { listener.onClickSend() },
-                modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom= 16.dp)
+                iconTint = Primary300,
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 8.dp)
             )
         }
     ) { paddingValues ->
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .background(BACKGROUND),
+                .background(BACKGROUND)
+                .padding(
+                    top = paddingValues.calculateTopPadding(),
+                    bottom = paddingValues.calculateBottomPadding()
+                ),
             state = scrollState,
             contentPadding = PaddingValues(
-                top = paddingValues.calculateTopPadding() + 16.dp,
-                bottom = paddingValues.calculateBottomPadding() + 8.dp
+                top = 16.dp,
+                bottom = 8.dp
             ),
-            verticalArrangement = remember {
-                object : Arrangement.Vertical {
-                    override fun Density.arrange(
-                        totalSize: Int,
-                        sizes: IntArray,
-                        outPositions: IntArray
-                    ) {
-                        var currentOffset = 0
-                        sizes.forEachIndexed { index, size ->
-                            outPositions[sizes.lastIndex - index] = totalSize - currentOffset - size
-                            currentOffset += size
-                        }
-                    }
-                }
-            },
+            verticalArrangement = if (state.messages.isEmpty()) Arrangement.Center else Arrangement.Bottom,
             horizontalAlignment = if (state.messages.isEmpty()) Alignment.CenterHorizontally else Alignment.Start
         ) {
-//        item {
-//            AnimatedVisibility(state.messages.isEmpty()) {
-//                Image(
-//                    painterResource(),
-//                    contentDescription = null
-//                )
-//
-//            }
-//        }
-//        item {
-//            AnimatedVisibility(state.messages.isEmpty()) {
-//                Text(
-//                    Resources.strings.sendMessageToStartLiveChat,
-//                    style = Theme.typography.caption,
-//                    color = Theme.colors.contentTertiary
-//                )
-//
-//            }
-//        }
+            item {
+                AnimatedVisibility(state.messages.isEmpty()) {
+                    Image(
+                        painterResource(R.drawable.chat_placeholder),
+                        contentDescription = null,
+                        modifier = Modifier.padding(40.dp)
+                    )
+
+                }
+            }
+            item {
+                AnimatedVisibility(state.messages.isEmpty()) {
+                    Text(
+                        "Send message to start new chat",
+                        style = MaterialTheme.typography.bodyMedium.copy(fontSize = 14.sp),
+                        modifier = Modifier.padding(bottom = 16.dp)
+                    )
+
+                }
+            }
             items(state.messages) { message ->
                 MessageCard(message)
             }
