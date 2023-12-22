@@ -44,7 +44,6 @@ fun HomeHeadline(headline: String, description: String, hasSearch: Boolean) {
             CardIcon(
                 icon = painterResource(id = R.drawable.icon_search),
                 shape = RoundedCornerShape(MaterialTheme.radius.radius_15),
-                parameter = null,
                 containerColor = Primary100,
                 contentColor = Primary300,
                 modifier = Modifier

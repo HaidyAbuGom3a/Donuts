@@ -18,17 +18,15 @@ import com.example.donuts.ui.theme.Primary300
 import com.example.donuts.ui.theme.White
 
 @Composable
-fun <T> CardIcon(
+fun CardIcon(
     icon: Painter,
     shape: Shape,
-    parameter: T? = null,
-    modifier:Modifier = Modifier,
-    onClickWithArgs: (T) -> Unit = {},
+    modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
     containerColor: Color = White,
-    contentColor:Color = Primary300,
+    contentColor: Color = Primary300,
     contentPadding: Dp = MaterialTheme.spacing.spacing_8,
-    elevation:CardElevation = CardDefaults.cardElevation(MaterialTheme.spacing.spacing_0)
+    elevation: CardElevation = CardDefaults.cardElevation(MaterialTheme.spacing.spacing_0)
 ) {
     Card(
         colors = CardDefaults.cardColors(
@@ -36,7 +34,7 @@ fun <T> CardIcon(
             contentColor = contentColor
         ),
         modifier = modifier
-            .noRippleEffect { if(parameter != null) onClickWithArgs(parameter) else onClick() },
+            .noRippleEffect { onClick() },
         shape = shape,
         elevation = elevation
     ) {

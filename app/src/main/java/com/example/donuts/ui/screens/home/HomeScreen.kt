@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import coil.compose.rememberAsyncImagePainter
 import com.example.donuts.ui.screens.details.navigateToDetails
 import com.example.donuts.ui.screens.home.composable.HomeHeadline
 import com.example.donuts.ui.screens.home.composable.ItemDonut
@@ -40,7 +41,7 @@ fun HomeScreen(
 ) {
     val systemUiController = rememberSystemUiController()
     systemUiController.setNavigationBarColor(Primary100, darkIcons = true)
-    systemUiController.setStatusBarColor(BACKGROUND,darkIcons = true)
+    systemUiController.setStatusBarColor(BACKGROUND, darkIcons = true)
     val state by viewModel.state.collectAsState()
     EffectHandler(effects = viewModel.effect) { effect ->
         when (effect) {
@@ -90,10 +91,15 @@ fun HomeContent(
                 itemsIndexed(state.offers) { index, item ->
                     val background = if (index % 2 == 0) CardBlue else CardPink
                     ItemDonutOffer(
-                        state = item,
-                        background,
+                        name = item.name,
+                        description = item.description,
+                        offer = item.price.toString(),
+                        oldPrice = item.oldPrice.toString(),
+                        isFav = item.isFavorite,
+                        background = background,
+                        imageUrl = item.image,
                         onClickItem = { listener.onClickItem(item.id) },
-                        onClickFav = { listener.onClickFav(item.id) }
+                        onClickFav = { listener.onClickFav(index) }
                     )
                 }
             }
@@ -108,7 +114,7 @@ fun HomeContent(
                     contentPadding = PaddingValues(horizontal = 32.dp),
                     horizontalArrangement = Arrangement.spacedBy(24.dp)
                 ) {
-                    items(6){
+                    items(6) {
                         ItemDonutLoading()
                     }
                 }
@@ -119,7 +125,11 @@ fun HomeContent(
                 horizontalArrangement = Arrangement.spacedBy(24.dp)
             ) {
                 items(state.donuts) { donut ->
-                    ItemDonut(state = donut, onClickItem = { listener.onClickItem(donut.id) })
+                    ItemDonut(
+                        name = donut.name,
+                        price = donut.price,
+                        imagePainter = rememberAsyncImagePainter(model = donut.image),
+                        onClickItem = { listener.onClickItem(donut.id) })
                 }
             }
 
