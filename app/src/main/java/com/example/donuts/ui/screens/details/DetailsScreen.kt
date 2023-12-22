@@ -25,6 +25,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.example.donuts.R
 import com.example.donuts.ui.dimens
 import com.example.donuts.ui.modifier.noRippleEffect
+import com.example.donuts.ui.screens.cart.navigateToCart
 import com.example.donuts.ui.screens.details.composable.DonutDetailsCard
 import com.example.donuts.ui.theme.Primary100
 import com.example.donuts.ui.theme.Primary300
@@ -48,6 +49,7 @@ fun DetailsScreen(
                 Toast.makeText(context, toastMsg, Toast.LENGTH_SHORT).show()
             }
 
+            DetailsUiEffect.NavigateToCart -> navController.navigateToCart()
         }
     }
     DetailsContent(state = state, viewModel)
@@ -90,7 +92,8 @@ fun DetailsContent(
         isFavorite = state.isFavorite,
         price = state.price,
         quantity = state.quantity,
-        listener = listener
+        listener = listener,
+        isFavLoading = state.isFavLoading
     )
 
 }

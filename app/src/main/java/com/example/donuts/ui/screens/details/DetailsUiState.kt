@@ -1,11 +1,10 @@
 package com.example.donuts.ui.screens.details
 
-import androidx.annotation.DrawableRes
-import com.example.donuts.R
 import com.example.donuts.domain.entities.Donut
 import kotlin.math.round
 
 data class DetailsUiState(
+    val isFavLoading: Boolean = false,
     val donutName: String = "",
     val description: String = "",
     val image: String = "" ,

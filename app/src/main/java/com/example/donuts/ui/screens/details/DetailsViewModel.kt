@@ -1,27 +1,46 @@
 package com.example.donuts.ui.screens.details
 
 import androidx.lifecycle.SavedStateHandle
-import com.example.donuts.domain.usecases.GetDonutDetailsUseCase
+import androidx.lifecycle.viewModelScope
+import com.example.donuts.domain.usecases.ManageDonutUseCase
 import com.example.donuts.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class DetailsViewModel @Inject constructor(
-    private val getDonutDetailsUseCase: GetDonutDetailsUseCase,
+    private val manageDonut: ManageDonutUseCase,
     savedStateHandle: SavedStateHandle
 ) :
     BaseViewModel<DetailsUiState, DetailsUiEffect>(DetailsUiState()), DetailsInteractionListener {
     private val args = DetailsArgs(savedStateHandle)
 
     init {
-        getDonutDetails()
+        viewModelScope.launch(Dispatchers.Default) {
+            getDonutDetails()
+            getIfDonutIsFavorite(args.id)
+        }
+    }
+
+    private fun getIfDonutIsFavorite(id: String) {
+        _state.update { it.copy(isFavLoading = true) }
+        tryToExecute(
+            { manageDonut.getIfDonutIsFavorite(id) },
+            ::onGetIfFavoriteSuccess,
+            ::onError
+        )
+    }
+
+    private fun onGetIfFavoriteSuccess(isFav: Boolean) {
+        _state.update { it.copy(isFavorite = isFav, isFavLoading = false) }
     }
 
     private fun getDonutDetails() {
         tryToExecute(
-            { getDonutDetailsUseCase(args.id).toDetailsUiState() },
+            { manageDonut.getDonutDetails(args.id).toDetailsUiState() },
             ::onGetDonutDetailsSuccess,
             ::onError
         )
@@ -40,6 +59,7 @@ class DetailsViewModel @Inject constructor(
     }
 
     private fun onError(e: Exception) {
+        _state.update { it.copy(isFavLoading = false) }
         println("error in details: $e")
     }
 
@@ -56,7 +76,14 @@ class DetailsViewModel @Inject constructor(
     }
 
     override fun onClickAddToCart() {
-        sendNewEffect(DetailsUiEffect.ShowAddToCartMessage)
+        tryToExecute(
+            { manageDonut.addDonutToCart(args.id, state.value.quantity) },
+            {
+                sendNewEffect(DetailsUiEffect.ShowAddToCartMessage)
+                sendNewEffect(DetailsUiEffect.NavigateToCart)
+            },
+            ::onError
+        )
     }
 
     override fun onClickBackIcon() {
@@ -64,7 +91,20 @@ class DetailsViewModel @Inject constructor(
     }
 
     override fun onClickFav() {
-        _state.update { it.copy(isFavorite = !it.isFavorite) }
+        _state.update { it.copy(isFavLoading = true) }
+        if (state.value.isFavorite) {
+            tryToExecute(
+                { manageDonut.removeDonutFromFavorite(args.id) },
+                { _state.update { it.copy(isFavLoading = false, isFavorite = false) } },
+                ::onError
+            )
+        } else {
+            tryToExecute(
+                { manageDonut.addDonutToFavorite(args.id) },
+                { _state.update { it.copy(isFavLoading = false, isFavorite = true) } },
+                ::onError
+            )
+        }
     }
 
 }

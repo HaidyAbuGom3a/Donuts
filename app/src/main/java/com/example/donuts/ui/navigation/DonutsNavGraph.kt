@@ -3,6 +3,7 @@ package com.example.donuts.ui.navigation
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import com.example.donuts.ui.screens.cart.cartRoute
 import com.example.donuts.ui.screens.chat.chatRoute
 import com.example.donuts.ui.screens.details.detailsRoute
 import com.example.donuts.ui.screens.home.homeScreenRoute
@@ -22,5 +23,6 @@ fun DonutsNavGraph(navController: NavHostController, startDestination: String) {
         detailsRoute(navController)
         profileRoute(navController)
         chatRoute(navController)
+        cartRoute(navController)
     }
 }

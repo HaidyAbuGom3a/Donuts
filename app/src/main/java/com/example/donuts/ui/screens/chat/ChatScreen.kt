@@ -4,8 +4,8 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -62,15 +62,15 @@ fun ChatContent(state: ChatUIState, listener: ChatInteractionListener) {
     }
     Scaffold(
         topBar = {
-            Row(verticalAlignment = Alignment.CenterVertically) {
+            Box {
                 Icon(
                     painter = painterResource(id = R.drawable.icon_back),
                     contentDescription = "",
                     modifier = Modifier
                         .padding(
-                            start = 32.dp,
-                            top = 32.dp,
-                            bottom = 32.dp
+                            start = 24.dp,
+                            top = 24.dp,
+                            bottom = 24.dp
                         )
                         .size(24.dp)
                         .noRippleEffect { listener.onClickBackIcon() },
@@ -81,7 +81,7 @@ fun ChatContent(state: ChatUIState, listener: ChatInteractionListener) {
                     style = MaterialTheme.typography.headlineSmall,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 32.dp),
+                        .padding(vertical = 24.dp),
                     textAlign = TextAlign.Center
                 )
             }
