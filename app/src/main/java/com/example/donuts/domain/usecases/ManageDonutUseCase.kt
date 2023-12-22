@@ -13,6 +13,8 @@ interface IManageDonutUseCase {
     suspend fun addDonutToCart(donutId: String, amount: Int)
     suspend fun getAllCartItems(): Cart
     suspend fun getDonutDetails(donutId: String): Donut
+    suspend fun getAllDonuts(): List<Donut>
+    suspend fun getAllOffers(): List<Donut>
 }
 
 class ManageDonutUseCase @Inject constructor(private val donutRepo: IDonutsRepository) : IManageDonutUseCase {
@@ -42,6 +44,14 @@ class ManageDonutUseCase @Inject constructor(private val donutRepo: IDonutsRepos
 
     override suspend fun getDonutDetails(donutId: String): Donut {
         return donutRepo.getDonutDetails(donutId)
+    }
+
+    override suspend fun getAllDonuts(): List<Donut> {
+        return donutRepo.getAllDonuts()
+    }
+
+    override suspend fun getAllOffers(): List<Donut> {
+        return donutRepo.getAllOffers()
     }
 
 }

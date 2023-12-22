@@ -1,6 +1,7 @@
 package com.example.donuts.ui.screens.home.composable
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,21 +16,25 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import coil.compose.rememberAsyncImagePainter
 import com.example.donuts.ui.modifier.noRippleEffect
 import com.example.donuts.ui.radius
-import com.example.donuts.ui.screens.home.DonutUiState
 import com.example.donuts.ui.theme.Primary300
 import com.example.donuts.ui.theme.Typography
 import com.example.donuts.ui.theme.White
 
 
 @Composable
-fun ItemDonut(state: DonutUiState, onClickItem: (String) -> Unit) {
+fun ItemDonut(
+    onClickItem: () -> Unit,
+    name: String,
+    imagePainter: Painter,
+    price: Double? = null
+) {
     Box(
-        modifier = Modifier.noRippleEffect { onClickItem(state.id) },
+        modifier = Modifier.noRippleEffect { onClickItem() },
         contentAlignment = Alignment.Center
     ) {
         Card(
@@ -46,27 +51,29 @@ fun ItemDonut(state: DonutUiState, onClickItem: (String) -> Unit) {
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.fillMaxWidth()
+                verticalArrangement = Arrangement.Center,
+                modifier = Modifier.fillMaxWidth().padding(bottom = 24.dp)
             ) {
                 Text(
-                    state.name,
+                    name,
                     style = Typography.titleSmall,
                     modifier = Modifier.padding(top = 40.dp, bottom = 8.dp)
                 )
-                Text(
-                    text = "$"
-                            + state.price.toString(),
-                    style = Typography.displaySmall,
-                    fontWeight = FontWeight.SemiBold,
-                    color = Primary300,
-                    modifier = Modifier.padding(bottom = 24.dp)
-                )
+                if (price != null) {
+                    Text(
+                        text = "$"
+                                + price.toString(),
+                        style = Typography.displaySmall,
+                        fontWeight = FontWeight.SemiBold,
+                        color = Primary300
+                    )
+                }
             }
 
         }
 
         Image(
-            painter = rememberAsyncImagePainter(model = state.image),
+            painter = imagePainter,
             contentDescription = "",
             modifier = Modifier
                 .padding(bottom = 84.dp)

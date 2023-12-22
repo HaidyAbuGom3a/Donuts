@@ -27,8 +27,6 @@ import com.example.donuts.ui.modifier.shimmerEffect
 import com.example.donuts.ui.radius
 import com.example.donuts.ui.screens.details.DetailsInteractionListener
 import com.example.donuts.ui.theme.Black
-import com.example.donuts.ui.theme.Black60
-import com.example.donuts.ui.theme.Black80
 import com.example.donuts.ui.theme.Primary300
 import com.example.donuts.ui.theme.Typography
 import com.example.donuts.ui.theme.White
@@ -131,13 +129,12 @@ fun DonutDetailsCard(
         val icon = if (!isFavorite) R.drawable.icon_heart_add_to_favourite else
             R.drawable.icon_heart_filled
 
-        if(!isFavLoading){
+        if (!isFavLoading) {
             Row(modifier = Modifier.fillMaxWidth()) {
                 Spacer(modifier = Modifier.weight(1f))
                 CardIcon(
                     icon = painterResource(id = icon),
                     shape = RoundedCornerShape(MaterialTheme.radius.radius_15),
-                    parameter = null,
                     onClick = { listener.onClickFav() },
                     modifier = Modifier.padding(end = 32.dp, top = 335.dp),
                     contentPadding = 12.dp,
@@ -155,13 +152,15 @@ fun DonutDetailsCard(
 
 @Composable
 private fun FavCardLoading() {
-    Row(modifier = Modifier.fillMaxWidth().padding(end = 32.dp, top = 335.dp)) {
+    Row(modifier = Modifier
+        .fillMaxWidth()
+        .padding(end = 32.dp, top = 335.dp)) {
         Spacer(modifier = Modifier.weight(1f))
         Box(
             modifier = Modifier
                 .size(45.dp)
                 .clip(RoundedCornerShape(MaterialTheme.radius.radius_15))
-                .shimmerEffect(colors = listOf(Black60, Black80, Black60))
+                .shimmerEffect()
         )
     }
 }

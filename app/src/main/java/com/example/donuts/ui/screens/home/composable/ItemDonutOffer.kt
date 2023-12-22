@@ -29,46 +29,49 @@ import com.example.donuts.R
 import com.example.donuts.ui.composables.CardIcon
 import com.example.donuts.ui.modifier.noRippleEffect
 import com.example.donuts.ui.radius
-import com.example.donuts.ui.screens.home.DonutUiState
 import com.example.donuts.ui.theme.Black60
 import com.example.donuts.ui.theme.Typography
 
 @Composable
 fun ItemDonutOffer(
-    state: DonutUiState,
+    onClickItem: () -> Unit,
+    onClickFav: () -> Unit,
+    name: String,
+    description: String,
+    oldPrice: String,
+    offer: String,
+    isFav: Boolean,
+    imageUrl: String,
     background: Color,
-    onClickItem: (String) -> Unit,
-    onClickFav: (String) -> Unit
 ) {
     Box {
         Card(
             modifier = Modifier
                 .height(280.dp)
                 .width(173.dp)
-                .noRippleEffect { onClickItem(state.id) },
+                .noRippleEffect { onClickItem() },
             colors = CardDefaults.cardColors(containerColor = background),
             shape = RoundedCornerShape(MaterialTheme.radius.radius_20)
         ) {
             Column {
-                val icon = if (state.isFavorite) R.drawable.icon_heart_filled
+                val icon = if (isFav) R.drawable.icon_heart_filled
                 else R.drawable.icon_heart_add_to_favourite
                 CardIcon(
                     icon = painterResource(id = icon),
                     shape = CircleShape,
-                    state.id,
                     modifier = Modifier.padding(
                         start = 16.dp,
                         top = 16.dp
                     ),
-                    onClickFav
+                    onClick = onClickFav
                 )
                 Text(
-                    state.name,
+                    name,
                     style = Typography.titleMedium,
                     modifier = Modifier.padding(start = 16.dp, top = 118.dp)
                 )
                 Text(
-                    state.description,
+                    description,
                     style = Typography.bodySmall,
                     modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp),
                     maxLines = 3,
@@ -77,7 +80,7 @@ fun ItemDonutOffer(
                 Row {
                     Spacer(modifier = Modifier.weight(1f))
                     Text(
-                        "$" + state.oldPrice.toString(),
+                        "$$oldPrice",
                         style = Typography.displaySmall,
                         textDecoration = TextDecoration.LineThrough,
                         fontWeight = FontWeight.SemiBold,
@@ -86,7 +89,7 @@ fun ItemDonutOffer(
                             .padding(top = 16.dp),
                     )
                     Text(
-                        "$" + state.price.toString(),
+                        "$$offer",
                         style = Typography.displayMedium,
                         fontWeight = FontWeight.SemiBold,
                         modifier = Modifier.padding(top = 8.dp, end = 16.dp, start = 4.dp),
@@ -98,7 +101,7 @@ fun ItemDonutOffer(
         Box(Modifier.padding(top = 40.dp, start = 84.dp)) {
             Image(
                 modifier = Modifier.size(130.dp),
-                painter = rememberAsyncImagePainter(model = state.image),
+                painter = rememberAsyncImagePainter(model = imageUrl),
                 contentScale = ContentScale.FillWidth,
                 contentDescription = null
             )

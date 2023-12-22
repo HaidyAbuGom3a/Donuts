@@ -17,7 +17,7 @@ import com.example.donuts.ui.radius
 fun ItemDonutLoading() {
     Spacer(
         modifier = Modifier
-            .padding(top = 40.dp)
+            .padding(top = 40.dp, start = 8.dp, end = 8.dp)
             .width(138.dp)
             .height(100.dp)
             .clip(
