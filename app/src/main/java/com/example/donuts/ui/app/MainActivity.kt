@@ -4,9 +4,12 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.DrawableRes
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.util.fastForEach
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -21,6 +24,8 @@ import com.example.donuts.ui.navigation.Destination
 import com.example.donuts.ui.navigation.DonutsNavGraph
 import com.example.donuts.ui.theme.DonutsTheme
 import dagger.hilt.android.AndroidEntryPoint
+
+val LocalBottomNavPadding = compositionLocalOf<PaddingValues> {  error("No padding values found!") }
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -49,7 +54,6 @@ class MainActivity : ComponentActivity() {
             R.drawable.icon_profile
         ),
     )
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,8 +85,9 @@ class MainActivity : ComponentActivity() {
             }
 
         ) { paddingValues ->
-            val p = paddingValues
-            DonutsNavGraph(navController = navController, startDestination)
+            CompositionLocalProvider(LocalBottomNavPadding provides paddingValues){
+                DonutsNavGraph(navController = navController, startDestination)
+            }
         }
 
     }

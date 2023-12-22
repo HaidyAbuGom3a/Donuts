@@ -28,6 +28,7 @@ import com.example.donuts.ui.screens.home.composable.ItemDonutOfferLoading
 import com.example.donuts.ui.theme.BACKGROUND
 import com.example.donuts.ui.theme.CardBlue
 import com.example.donuts.ui.theme.CardPink
+import com.example.donuts.ui.theme.Primary100
 import com.example.donuts.ui.theme.Typography
 import com.example.donuts.ui.util.EffectHandler
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -38,8 +39,8 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val systemUiController = rememberSystemUiController()
-    systemUiController.setSystemBarsColor(BACKGROUND)
-    systemUiController.setStatusBarColor(BACKGROUND, darkIcons = true)
+    systemUiController.setNavigationBarColor(Primary100, darkIcons = true)
+    systemUiController.setStatusBarColor(BACKGROUND,darkIcons = true)
     val state by viewModel.state.collectAsState()
     EffectHandler(effects = viewModel.effect) { effect ->
         when (effect) {

@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -30,11 +29,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.donuts.R
+import com.example.donuts.ui.composables.extension.bottomBorder
 import com.example.donuts.ui.modifier.noRippleEffect
 import com.example.donuts.ui.theme.BACKGROUND
 import com.example.donuts.ui.theme.Black60
+import com.example.donuts.ui.theme.Primary100
 import com.example.donuts.ui.theme.Primary200
 import com.example.donuts.ui.theme.Primary300
+import com.example.donuts.ui.theme.Secondary
 import com.example.donuts.ui.util.EffectHandler
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
@@ -42,8 +44,8 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 fun ProfileScreen(navController: NavController, viewModel: ProfileViewModel = hiltViewModel()) {
     val state by viewModel.state.collectAsState()
     val systemUiController = rememberSystemUiController()
-    systemUiController.setSystemBarsColor(BACKGROUND)
-    systemUiController.setStatusBarColor(BACKGROUND, darkIcons = true)
+    systemUiController.setNavigationBarColor(Primary100, darkIcons = true)
+    systemUiController.setStatusBarColor(BACKGROUND,darkIcons = true)
     EffectHandler(effects = viewModel.effect) { effect ->
         when (effect) {
             ProfileUiEffect.NavigateUp -> navController.popBackStack()
@@ -93,18 +95,14 @@ fun ProfileContent(state: ProfileUiState, listener: ProfileInteractionListener) 
             TitleWithValue(
                 title = "Username",
                 value = state.userName,
-                modifier = Modifier.padding(top = 64.dp, bottom = 16.dp)
+                modifier = Modifier.padding(top = 64.dp)
             )
-
-            HorizontalLine()
 
             TitleWithValue(
                 title = "Email",
                 value = state.email,
-                modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
+                modifier = Modifier.padding(top = 16.dp)
             )
-
-            HorizontalLine()
 
             TitleWithValue(
                 title = "Address",
@@ -120,7 +118,7 @@ fun ProfileContent(state: ProfileUiState, listener: ProfileInteractionListener) 
 
 @Composable
 private fun TitleWithValue(title: String, value: String, modifier: Modifier = Modifier) {
-    Row(modifier = modifier) {
+    Row(modifier = modifier.padding(horizontal = 16.dp).bottomBorder(1.dp, Secondary.copy(alpha = 0.5f))) {
         Text(
             title,
             style = MaterialTheme.typography.titleMedium,
@@ -130,19 +128,8 @@ private fun TitleWithValue(title: String, value: String, modifier: Modifier = Mo
         Spacer(modifier = Modifier.weight(1f))
         Text(
             value,
-            style = MaterialTheme.typography.bodyLarge,
-            modifier = Modifier.padding(end = 16.dp)
+            style = MaterialTheme.typography.bodyLarge.copy(Black60),
+            modifier = Modifier.padding(end = 16.dp, bottom = 16.dp)
         )
     }
-}
-
-@Composable
-private fun HorizontalLine() {
-    Spacer(
-        Modifier
-            .height(1.dp)
-            .fillMaxWidth()
-            .background(Black60.copy(alpha = 0.2f))
-            .padding(horizontal = 16.dp)
-    )
 }
