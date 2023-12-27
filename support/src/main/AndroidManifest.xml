@@ -14,7 +14,7 @@
         <activity
             android:name=".ui.app.MainActivity"
             android:exported="true"
-            android:label="@string/app_name"
+            android:windowSoftInputMode="adjustResize"
             android:theme="@style/Theme.Donuts">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
