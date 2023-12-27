@@ -15,7 +15,7 @@ class DataStoreImp @Inject constructor(context: Context) : IDataStore {
 
     companion object {
         private const val PREFERENCES_FILE_NAME = "donuts_support"
-        private val IS_LOGGED = booleanPreferencesKey("is_active")
+        private val IS_LOGGED = booleanPreferencesKey("is_logged")
         private val USER_ID = stringPreferencesKey("user_id")
     }
 

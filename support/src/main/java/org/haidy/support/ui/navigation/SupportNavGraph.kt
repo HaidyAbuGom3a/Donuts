@@ -12,6 +12,6 @@ fun SupportNavGraph(navController: NavHostController, startDestination: String) 
     NavHost(navController, startDestination = startDestination) {
         loginScreenRoute(navController)
         signUpScreenRoute(navController)
-        chatRoute(navController)
+        chatRoute()
     }
 }

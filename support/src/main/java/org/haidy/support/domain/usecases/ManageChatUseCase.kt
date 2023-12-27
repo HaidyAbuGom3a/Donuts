@@ -9,6 +9,7 @@ interface IManageChatUseCase {
     suspend fun getMessages(chatId: String): Flow<List<Message>>
     suspend fun sendMessage(message: String, chatId: String, imageUrl: String): Message
     suspend fun getAvailableChat(): Flow<String>
+    suspend fun closeChat(chatId: String)
 }
 
 class ManageChatUseCaseImp @Inject constructor(private val chatRpo: IChatRepository) :
@@ -23,6 +24,10 @@ class ManageChatUseCaseImp @Inject constructor(private val chatRpo: IChatReposit
 
     override suspend fun getAvailableChat(): Flow<String> {
         return chatRpo.getAvailableChat()
+    }
+
+    override suspend fun closeChat(chatId: String) {
+        chatRpo.closeChat(chatId)
     }
 
 }
