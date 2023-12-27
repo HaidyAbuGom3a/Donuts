@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -34,7 +33,7 @@ import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.donuts.R
 import com.example.donuts.ui.app.LocalBottomNavPadding
-import com.example.donuts.ui.composables.PrimaryButton
+import com.example.donuts.ui.composables.DonutsButton
 import com.example.donuts.ui.modifier.noRippleEffect
 import com.example.donuts.ui.screens.cart.composable.ItemCart
 import com.example.donuts.ui.screens.cart.composable.ItemCartLoading
@@ -42,7 +41,6 @@ import com.example.donuts.ui.theme.BACKGROUND
 import com.example.donuts.ui.theme.Primary100
 import com.example.donuts.ui.theme.Primary300
 import com.example.donuts.ui.theme.Typography
-import com.example.donuts.ui.theme.White
 import com.example.donuts.ui.util.EffectHandler
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
@@ -76,17 +74,12 @@ fun CartContent(state: CartUiState, listener: CartInteractionListener) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(
                         text = "Total Price: ${state.totalPrice} £",
-                        style = Typography.displayMedium,
+                        style = Typography.displaySmall.copy(fontSize = 16.sp),
                         modifier = Modifier.padding(horizontal = 24.dp, vertical = 16.dp)
                     )
-                    PrimaryButton(
+                    DonutsButton(
                         onClick = { listener.onClickOrderNow() },
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Primary300,
-                            contentColor = White
-                        ),
                         text = "Order Now",
-                        contentPadding = PaddingValues(vertical = 16.dp, horizontal = 24.dp),
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(
