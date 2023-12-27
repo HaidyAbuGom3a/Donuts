@@ -1,9 +1,9 @@
 package org.haidy.support.ui.screens.chat
 
 import android.util.Log
-import org.haidy.support.domain.entities.Message
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
+import org.haidy.support.domain.entities.Message
 import org.haidy.support.domain.usecases.ManageChatUseCaseImp
 import org.haidy.support.domain.usecases.ManageUserUseCase
 import org.haidy.support.ui.base.BaseViewModel
@@ -14,7 +14,7 @@ class ChatViewModel @Inject constructor(
     private val manageChat: ManageChatUseCaseImp,
     private val manageUser: ManageUserUseCase
 ) :
-    BaseViewModel<ChatUIState, ChatUiEffect>(ChatUIState()), ChatInteractionListener {
+    BaseViewModel<ChatUIState, Nothing>(ChatUIState()), ChatInteractionListener {
 
     init {
         getAvailableChat()
@@ -37,13 +37,10 @@ class ChatViewModel @Inject constructor(
         )
     }
 
-    private fun getUserImageUrl() {
-        tryToExecute(
-            { manageUser.getUserData() },
-            { _state.update { it.copy(imageUrl = it.imageUrl) } },
-            ::onError
-        )
+    private fun onGetMessagesSuccess(messages: List<Message>) {
+        _state.update { it.copy(messages = messages.map { message -> message.toUIState() }) }
     }
+
 
     override fun onMessageChanged(message: String) {
         _state.update { it.copy(message = message) }
@@ -70,17 +67,29 @@ class ChatViewModel @Inject constructor(
         _state.update { it.copy(chatId = message.chatId) }
     }
 
-    private fun onGetMessagesSuccess(messages: List<Message>) {
-        _state.update { it.copy(messages = messages.map { message -> message.toUIState() }) }
+
+    override fun onClickCloseChat() {
+        tryToExecute(
+            { manageChat.closeChat(state.value.chatId) },
+            ::onCloseChatSuccess,
+            ::onError
+        )
+    }
+
+    private fun onCloseChatSuccess(unit: Unit) {
+        _state.update {
+            it.copy(
+                chatId = "",
+                imageUrl = "",
+                message = "",
+                messages = emptyList(),
+            )
+        }
+        getAvailableChat()
     }
 
     private fun onError(e: Exception) {
         Log.i("error occurred", e.toString())
-    }
-
-
-    override fun onClickBackIcon() {
-        sendNewEffect(ChatUiEffect.NavigateUp)
     }
 
 
