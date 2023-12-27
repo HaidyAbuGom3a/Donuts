@@ -27,7 +27,6 @@ class ProfileViewModel @Inject constructor(private val userUseCase: ManageUserUs
     }
 
     private fun onGetUserDataSuccess(user: User) {
-        println("imageee arrived ${user.imageUrl}")
         _state.update {
             it.copy(
                 userName = user.username,
@@ -39,7 +38,7 @@ class ProfileViewModel @Inject constructor(private val userUseCase: ManageUserUs
     }
 
     private fun onError(error: Exception) {
-        Log.i("errorHappened", "$error")
+        Log.i("error occurred", "$error")
     }
 
     override fun onClickBackIcon() {

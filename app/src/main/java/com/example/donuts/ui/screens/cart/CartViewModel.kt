@@ -30,7 +30,6 @@ class CartViewModel @Inject constructor(private val manageDonut: ManageDonutUseC
 
     private fun onError(e: Exception) {
         _state.update { it.copy(isLoading = false) }
-        println("error occurred $e")
     }
 
     override fun onClickOrderNow() {

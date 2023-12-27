@@ -44,7 +44,7 @@ class SignUpViewModel @Inject constructor(private val manageAuth: UserAuthentica
     }
 
     private fun onError(e: Exception) {
-        Log.i("haidy", "Error: ${e.localizedMessage}")
+        Log.i("error occurred", "Error: ${e.localizedMessage}")
     }
 
     override fun onClickBackIcon() {

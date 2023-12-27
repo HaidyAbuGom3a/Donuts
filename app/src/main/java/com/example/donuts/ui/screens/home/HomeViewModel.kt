@@ -98,7 +98,6 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun onError(e: Exception) {
-        println("haidy error $e")
         _state.update { it.copy(isLoading = false) }
     }
 

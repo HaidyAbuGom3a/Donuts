@@ -60,7 +60,6 @@ class DetailsViewModel @Inject constructor(
 
     private fun onError(e: Exception) {
         _state.update { it.copy(isFavLoading = false) }
-        println("error in details: $e")
     }
 
     override fun onClickPlusButton() {

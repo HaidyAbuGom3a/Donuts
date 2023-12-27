@@ -61,7 +61,6 @@ class ChatViewModel @Inject constructor(
 
     private fun onGetMessagesSuccess(messages: List<Message>) {
         _state.update { it.copy(messages = messages.map { message -> message.toUIState() }) }
-        println("haidy updated messages state ${state.value.messages}")
     }
 
     private fun onError(e: Exception) {

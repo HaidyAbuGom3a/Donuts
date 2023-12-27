@@ -5,14 +5,12 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import org.haidy.support.domain.entities.Message
 import org.haidy.support.domain.usecases.ManageChatUseCaseImp
-import org.haidy.support.domain.usecases.ManageUserUseCase
 import org.haidy.support.ui.base.BaseViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class ChatViewModel @Inject constructor(
     private val manageChat: ManageChatUseCaseImp,
-    private val manageUser: ManageUserUseCase
 ) :
     BaseViewModel<ChatUIState, Nothing>(ChatUIState()), ChatInteractionListener {
 
