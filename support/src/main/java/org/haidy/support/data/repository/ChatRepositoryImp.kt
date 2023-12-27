@@ -4,6 +4,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import org.haidy.support.domain.entities.Message
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.toObject
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -81,6 +82,15 @@ class ChatRepositoryImp @Inject constructor(
             existingChatDocumentRef.set(it.copy(messages = messages)).await()
         }
         return messageDto.toMessage(id)
+    }
+
+    override suspend fun closeChat(chatId: String) {
+        val chatDocumentRef = firestore.collection(CHATS).document(chatId)
+        val chatDto = chatDocumentRef.get().await().toObject<ChatDto>()
+        val updatedChat = chatDto?.copy(closed = true)
+        if (updatedChat != null) {
+            chatDocumentRef.set(updatedChat).await()
+        }
     }
 
     private suspend fun getChat(chatId: String): ChatDto {

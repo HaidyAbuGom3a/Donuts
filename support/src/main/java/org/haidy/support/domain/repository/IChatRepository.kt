@@ -7,4 +7,5 @@ interface IChatRepository {
     suspend fun getAvailableChat(): Flow<String>
     suspend fun getMessages(chatId: String): Flow<List<Message>>
     suspend fun sendMessage(message: String, chatId: String, imageUrl: String): Message
+    suspend fun closeChat(chatId: String)
 }

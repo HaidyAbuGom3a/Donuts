@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.donuts.ui.composables.extension.bottomBorder
 import com.example.donuts.ui.theme.Black60
 import com.example.donuts.ui.theme.Primary200
@@ -40,24 +41,24 @@ fun ItemCart(
             contentScale = ContentScale.Crop,
             contentDescription = null,
             modifier = Modifier
-                .width(94.dp)
-                .height(102.dp)
+                .width(84.dp)
+                .height(92.dp)
         )
         Text(
             name,
-            style = MaterialTheme.typography.titleLarge,
+            style = MaterialTheme.typography.titleMedium,
             color = Primary200,
             modifier = Modifier.padding(start = 16.dp)
         )
         Spacer(modifier = Modifier.weight(1f))
         Text(
             "Amount:",
-            style = MaterialTheme.typography.titleMedium,
+            style = MaterialTheme.typography.titleSmall.copy(fontSize = 14.sp),
             modifier = Modifier.padding(end = 4.dp)
         )
         Text(
             amount.toString(),
-            style = MaterialTheme.typography.bodyLarge.copy(color = Black60),
+            style = MaterialTheme.typography.bodyMedium.copy(color = Black60),
             modifier = Modifier.padding(end = 16.dp, bottom = 16.dp, top = 16.dp)
         )
     }
