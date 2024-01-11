@@ -1,28 +1,30 @@
 package com.example.donuts.ui.screens.home
 
-import androidx.annotation.DrawableRes
-import com.example.donuts.domain.entities.DonutEntity
+import com.example.donuts.domain.entities.Donut
+import kotlin.math.round
 
 data class HomeUiState(
+    val isLoading: Boolean = false,
     val donuts: List<DonutUiState> = emptyList(),
-    val offers: List<DonutUiState> = emptyList()
+    val offers: List<DonutUiState> = emptyList(),
+    val favorites: List<String> = emptyList()
 )
 
 data class DonutUiState(
-    val id: Int = 0,
+    val id: String = "",
     val name: String = "",
     val description: String = "",
-    @DrawableRes val image: Int = 0,
-    val oldPrice:Int = 0,
-    val newPrice:Int = 0,
-    val isFavorite:Boolean = false
+    val image: String = "",
+    val oldPrice: Double = 0.0,
+    val price: Double = 0.0,
+    val isFavorite: Boolean = false
 )
 
-fun DonutEntity.toDonutUiState() = DonutUiState(
+fun Donut.toDonutUiState() = DonutUiState(
     id = id,
-    name = name ?: "",
-    description = description ?: "",
-    oldPrice = oldPrice ?: 0,
-    newPrice = newPrice ?: 0,
-    image = image ?: 0
+    name = name,
+    description = description,
+    oldPrice = round(price),
+    price = round(price - (price * discountPercentage)),
+    image = imageUrl
 )
